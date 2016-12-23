@@ -37,10 +37,19 @@ namespace CoreApp
         {
             loggerFactory.AddConsole();
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+            else {
+                app.UseExceptionHandler("/welcome");
+                
+            }
+            app.UseFileServer();//+default + static
+            //app.UseDefaultFiles();//look for any default files i.e Index . Default need to be 1st
+            //app.UseStaticFiles();
+            app.UseWelcomePage(new WelcomePageOptions {
+                Path = "/welcome"
+            });
 
             app.Run(async (context) =>
             {
