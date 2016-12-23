@@ -1,0 +1,2 @@
+# CoreApp
+.Net Core training
