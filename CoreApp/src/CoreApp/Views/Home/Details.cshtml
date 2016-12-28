@@ -1,0 +1,12 @@
+﻿@model CoreApp.Entities.Restaurant
+@using CoreApp.Controllers
+<h1>@Model.Name</h1>
+<div>
+    Id: @Model.Id;
+</div>
+<div>
+    Cousin: @Model.Cuisine
+</div>
+<div>.....details...</div>
+
+@Html.ActionLink("Home", nameof(HomeController.Index))
