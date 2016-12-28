@@ -36,14 +36,20 @@ namespace CoreApp.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(RestaurantEditView model) {
-            var newRestaurant = new Restaurant();
-            newRestaurant.Cuisine = model.Cuisine;
-            newRestaurant.Name = model.Name;
 
-            _restaurantData.Add(newRestaurant);
+            if(ModelState.IsValid) {
+                var newRestaurant = new Restaurant();
+                newRestaurant.Cuisine = model.Cuisine;
+                newRestaurant.Name = model.Name;
 
-            return RedirectToAction("Details",new { id = newRestaurant.Id });
+                _restaurantData.Add(newRestaurant);
+
+                return RedirectToAction("Details", new { id = newRestaurant.Id });
+            }
+
+            return View();
 
         }
     }
