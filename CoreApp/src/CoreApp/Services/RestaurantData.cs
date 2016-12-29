@@ -6,6 +6,27 @@ using System.Threading.Tasks;
 
 namespace CoreApp.Services
 {
+    public class SqlRestaurantData : IRestaurantData {
+        private CoreAppDbContext _context;
+
+        public SqlRestaurantData(CoreAppDbContext context) {
+            _context = context;
+        }
+
+        public Restaurant Add(Restaurant newRestaurant) {
+            _context.Add(newRestaurant);
+            _context.SaveChanges();
+            return newRestaurant;
+        }
+
+        public Restaurant Get(int id) {
+            return _context.Restaurants.FirstOrDefault(r => r.Id == id);
+        }
+
+        public IEnumerable<Restaurant> GetAll() { // IQueryable
+            return _context.Restaurants;
+        }
+    }
     public interface IRestaurantData {
         IEnumerable<Restaurant> GetAll();
         Restaurant Get(int id);

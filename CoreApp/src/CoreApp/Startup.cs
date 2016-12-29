@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Routing;
 using CoreApp.Services;
+using CoreApp.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreApp
 {
@@ -32,7 +34,9 @@ namespace CoreApp
             services.AddMvc();
             services.AddSingleton<IGreeter, Greeter>();  //if you see something that requires iGreeter, use class Greeter
             services.AddSingleton(Configuration);//type of IConfiguration, so ASP.NET knows, when to use Configuration parameter
-            services.AddScoped<IRestaurantData, InMemoryRestaurantData>(); // Scoped <- Every Http request will create new Instace of RestaurantData
+            services.AddScoped<IRestaurantData, SqlRestaurantData>();
+            services.AddDbContext<CoreAppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("CoreApp")));// Scoped <- Every Http request will create new Instace of RestaurantData
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IGreeter greeter)
